@@ -3,30 +3,36 @@
 
 import os
 import subprocess as sp
-from config import MARKDUPLICATESJARPATH
+
+from config import MARK_DUPLICATES_JAR_PATH
+from config import SAMTOOLS_PATH
+from config import BWA_PATH
+from config import NOVOSORT_PATH
+from config import TABIX_PATH
+from config import BCFTOOLS_PATH
 
 def samtools_index_fasta(fasta_path):
-    cmd = ['samtools', 'faidx', fasta_path]
+    cmd = [SAMTOOLS_PATH, 'faidx', fasta_path]
     return cmd
 
 
 def bwa_index_fasta(fasta_path):
-    cmd = ['bwa', 'index', fasta_path]
+    cmd = [BWA_PATH, 'index', fasta_path]
     return cmd
 
 
 def bwa_mem_cmd(fasta_path, fw_fq, rv_fq):
-    cmd = ['bwa', 'mem', fasta_path, fw_fq, rv_fq]
+    cmd = [BWA_PATH, 'mem', fasta_path, fw_fq, rv_fq]
     return cmd
 
 
 def samtools_view_cmd():
-    cmd = ['samtools', 'view', '-Su']
+    cmd = [SAMTOOLS_PATH, 'view', '-Su']
     return cmd
 
 
 def novosort_cmd(bamfile_working):
-    cmd = ['novosort',
+    cmd = [NOVOSORT_PATH,
            '-m', '1g',
            '-o', bamfile_working,
            '-t', '.', '-']
@@ -34,7 +40,7 @@ def novosort_cmd(bamfile_working):
 
 
 def mark_duplicates_cmd(bamfile_working, bamfile_final):
-    cmd = ['java', '-jar', MARKDUPLICATESJARPATH,
+    cmd = ['java', '-jar', MARK_DUPLICATES_JAR_PATH,
            'INPUT={}'.format(bamfile_working),
            'OUTPUT={}'.format(bamfile_final),
            'REMOVE_DUPLICATES=true',
@@ -44,7 +50,7 @@ def mark_duplicates_cmd(bamfile_working, bamfile_final):
 
 
 def samtools_index_bam_cmd(bamfile_final):
-    cmd = ['samtools', 'index', bamfile_final]
+    cmd = [SAMTOOLS_PATH, 'index', bamfile_final]
     return cmd
 
 
@@ -54,13 +60,13 @@ def cat_final_bam(bamfile_final):
 
 
 def samtools_mpileup(bamfile_final, ref_file):
-    cmd = ['samtools', 'mpileup', '-A', '-ug',
+    cmd = [SAMTOOLS_PATH, 'mpileup', '-A', '-ug',
            '-f', ref_file, '-s', bamfile_final]
     return cmd
 
 
 def bcftools_call():
-    cmd = ['bcftools', 'call', '-c']
+    cmd = [BCFTOOLS_PATH, 'call', '-c']
     return cmd
 
 
@@ -70,19 +76,19 @@ def bgzip():
 
 
 def tabix(vcf_file_out):
-    cmd = ['tabix', '-f', '-p', 'vcf', vcf_file_out]
+    cmd = [TABIX_PATH, '-f', '-p', 'vcf', vcf_file_out]
     return cmd
 
 
 def bcftools_filter(vcf_file_out):
-    cmd = ['bcftools', 'filter',
+    cmd = [BCFTOOLS_PATH, 'filter',
            "-i'(%QUAL<20)||(%QUAL==999)||(DP <= 3)'",
            vcf_file_out]
     return cmd
 
 
 def bcftools_query():
-    cmd = ['bcftools', 'query',
+    cmd = [BCFTOOLS_PATH, 'query',
            "-f'%CHROM\t%POS\n'"]
     return cmd
 
@@ -150,7 +156,7 @@ def build_depth_file(vcf_file_out, depth_file):
 
 
 def build_consensus(vcf_file_out, ref_file, depth_file, cns_file):
-    cns_cmd = ['bcftools',
+    cns_cmd = [BCFTOOLS_PATH,
                'consensus', vcf_file_out,
                '-f', ref_file,
                '-m', depth_file]
