@@ -10,6 +10,9 @@ from config import BWA_PATH
 from config import NOVOSORT_PATH
 from config import TABIX_PATH
 from config import BCFTOOLS_PATH
+from config import MASK_MIN_QUALITY
+from config import MASK_MIN_DEPTH
+
 
 def samtools_index_fasta(fasta_path):
     cmd = [SAMTOOLS_PATH, 'faidx', fasta_path]
@@ -81,8 +84,9 @@ def tabix(vcf_file_out):
 
 
 def bcftools_filter(vcf_file_out):
+    filter_string = "-i'(%QUAL<{MASK_MIN_QUALITY})||(%QUAL==999)||(DP <= {MASK_MIN_DEPTH})'"
     cmd = [BCFTOOLS_PATH, 'filter',
-           "-i'(%QUAL<20)||(%QUAL==999)||(DP <= 3)'",
+           filter_string,
            vcf_file_out]
     return cmd
 
