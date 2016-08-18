@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
-MarkDuplicatesJarPath = "/cGAP/bin/MarkDuplicates.jar"
+# -*- coding: utf-8 -*-
+
 import os
 import subprocess as sp
+from config import MARKDUPLICATESJARPATH
 
 def samtools_index_fasta(fasta_path):
     cmd = ['samtools', 'faidx', fasta_path]
@@ -33,7 +34,7 @@ def novosort_cmd(bamfile_working):
 
 
 def mark_duplicates_cmd(bamfile_working, bamfile_final):
-    cmd = ['java', '-jar', MarkDuplicatesJarPath,
+    cmd = ['java', '-jar', MARKDUPLICATESJARPATH,
            'INPUT={}'.format(bamfile_working),
            'OUTPUT={}'.format(bamfile_final),
            'REMOVE_DUPLICATES=true',

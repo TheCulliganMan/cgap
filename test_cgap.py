@@ -1,7 +1,8 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import cgap
 
-cgap.pipe_consensus(
+pipe_consensus(
         "Opn1mw.fa",
         "sm_test.1.fq",
         "sm_test.2.fq",
