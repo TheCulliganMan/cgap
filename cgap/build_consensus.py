@@ -52,24 +52,24 @@ def cat_final_bam(bamfile_final):
     return cmd
 
 
-def samtools_mpileup(ref_file):
+def samtools_mpileup(bamfile_final, ref_file):
     cmd = ['samtools', 'mpileup', '-A', '-ug',
-           '-f', ref_file, '-s', '-']
+           '-f', ref_file, '-s', bamfile_final]
     return cmd
 
 
 def bcftools_call():
-    cmd = ['bcftools', 'sp.call', '-c']
+    cmd = ['bcftools', 'call', '-c']
     return cmd
 
 
-def bgunzip():
-    cmd = ['bgzip', '-d']
+def bgzip():
+    cmd = ['bgzip', '-c']
     return cmd
 
 
 def tabix(vcf_file_out):
-    cmd = ['tabix', '-f', vcf_file_out]
+    cmd = ['tabix', '-f', '-p', 'vcf', vcf_file_out]
     return cmd
 
 
@@ -119,23 +119,20 @@ def build_final_bam(bamfile_working, bamfile_final):
 
 
 def build_vcf(ref_file, bamfile_final, vcf_file_out):
-    cat_cmd = cat_final_bam(bamfile_final)
-    sam_cmd = samtools_mpileup(ref_file)
+    sam_cmd = samtools_mpileup(bamfile_final, ref_file)
     bcf_cmd = bcftools_call()
-    #buz_cmd = bgunzip()
+    buz_cmd = bgzip()
     idx_cmd = tabix(vcf_file_out)
 
     with open(vcf_file_out, "w+") as output_handle:
-        p1 = sp.Popen(cat_cmd, stdout = sp.PIPE)
-        p2 = sp.Popen(sam_cmd, stdin = p1.stdout, stdout = sp.PIPE)
-        p3 = sp.Popen(bcf_cmd, stdin = p2.stdout, stdout = output_handle)
-        #p4 = sp.Popen(buz_cmd, stdin = p3.stdout, stdout = output_handle)
-        #p4.communicate()
-        p3.communicate() #this will almost certainly have to change
+        p1 = sp.Popen(sam_cmd, stdout = sp.PIPE)
+        p2 = sp.Popen(bcf_cmd, stdin = p1.stdout, stdout = sp.PIPE)
+        p3 = sp.Popen(buz_cmd, stdin = p2.stdout, stdout = output_handle)
+        p3.communicate()
 
     status = sp.call(idx_cmd)
 
-    return True
+    return vcf_file_out
 
 
 def build_depth_file(vcf_file_out, depth_file):
@@ -158,8 +155,9 @@ def build_consensus(vcf_file_out, ref_file, depth_file, cns_file):
                '-m', depth_file]
 
     with open(cns_file, 'w+') as output_handle:
-        p1 = sp.Popen(cns_cmd, stdout=output_handle)
-        p1.communicate()
+        p1 = sp.call(cns_cmd, stdout=output_handle)
+
+    return True
 
 
 def pipe_consensus(
@@ -172,14 +170,19 @@ def pipe_consensus(
         depth_file,
         cns_file
     ):
+
+    if not vcf_file_out.endswith('.gz'):
+        vcf_file_out += ".gz"
+
     build_fasta_indices(ref_file)
     build_working_bam(ref_file, fw_fq, rv_fq, bamfile_working)
     build_final_bam(bamfile_working, bamfile_final)
-    build_vcf(ref_file, bamfile_final, vcf_file_out)
+    vcf_file_out = build_vcf(ref_file, bamfile_final, vcf_file_out)
     build_depth_file(vcf_file_out, depth_file)
     build_consensus(vcf_file_out, ref_file, depth_file, cns_file)
 
     return True
+
 
 if __name__ == "__main__":
     pipe_consensus(

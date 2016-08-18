@@ -117,3 +117,4 @@ queryWork/
 *.sa
 *.pac
 *.fai
+*.vcf.gz
