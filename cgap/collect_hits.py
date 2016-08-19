@@ -5,6 +5,8 @@ import os
 
 from Bio import SeqIO
 
+from .config import MIN_BLAST_SCORE
+
 from .make_paths import get_blast_file_path
 from .make_paths import get_fastq_file_path
 

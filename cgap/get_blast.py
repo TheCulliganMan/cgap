@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import subprocess as sp
+import os
 
 from .make_paths import get_blast_file_path
 from .make_paths import get_blast_db_path
@@ -17,6 +18,6 @@ def run_blast(fasta_ref, fastq):
            '-m', '8']
 
     with open(blast_file, "w+") as output_handle:
-        status = sp.call(cmd, stdout=output_handle)
-
-    return status
+        p1 = sp.Popen(cmd, stdout=output_handle)
+        p1.communicate()
+    return True
