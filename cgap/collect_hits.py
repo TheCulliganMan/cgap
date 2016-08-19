@@ -5,15 +5,20 @@ import os
 
 from Bio import SeqIO
 
-from config import HITS_PATH
-from make_paths import get_hits_file_path
-from make_paths import get_hit_fastq_path
+from make_paths import get_blast_file_path
+from make_paths import get_fastq_file_path
 
-def hits_generator(hits_file_path):
-    hit_set = set()
-    with open(hits_file_path) as input_handle:
+def yield_hits(fasta_ref, fastq):
+    blast_file = get_blast_file_path(fasta_ref, fastq)
+    with open(blast_file) as input_handle:
         for line in input_handle:
-            yield line.split()
+            found = False
+            columns = line.split()
+            try:
+                if float(columns[11]) >= MIN_BLAST_SCORE:
+                    yield columns[1].strip()
+            except IndexError:
+                pass
 
 
 def build_hits_collection(fasta_refs, fastq):
@@ -25,8 +30,7 @@ def build_hits_collection(fasta_refs, fastq):
         if fasta_ref not in reference_hit_dict:
             reference_hit_dict[fasta_ref] = set()
 
-        hits_path = get_hits_file_path(fasta_ref, fastq)
-        hits = hits_generator(hits_path)
+        hits = yield_hits(fasta_ref, fastq)
 
         for fqid in hits:
 
@@ -53,7 +57,7 @@ def write_fastqs(
         reference_hit_dict,
         hit_dict):
     for fasta_ref in fasta_refs:
-        fastq_path = get_hits_fastq_path(fasta_ref, fastq)
+        fastq_path = get_fastq_file_path(fasta_ref, fastq)
         with open(fastq_path, "w+") as output_handle:
             for fqid in reference_hit_dict[fasta_ref]:
                 SeqIO.write(hit_dict[fqid], output_handle, "fastq")

@@ -3,14 +3,24 @@
 
 import os
 
+from config import FASTQ_PATH
 from config import HITS_PATH
 from config import HIT_FASTQ_PATH
 from config import BLAST_PATH
+from config import BAM_PATH
+from config import VCF_PATH
+from config import DEPTH_PATH
+from config import CONSENSUS_FILES
 
 def make_paths():
-    directories = [HITS_PATH,
+    directories = [FASTQ_PATH,
+                   HITS_PATH,
                    HIT_FASTQ_PATH,
-                   BLAST_PATH]
+                   BLAST_PATH,
+                   BAM_PATH,
+                   VCF_PATH,
+                   DEPTH_PATH,
+                   CONSENSUS_FILES]
     for directory in directories:
         os.makedirs(directory)
 
@@ -27,30 +37,39 @@ def get_path(fasta_ref, fastq, directory, ext):
     return path
 
 
-def get_hits_file_path(fasta_ref, fastq):
-    path = get_path(fasta_ref, fastq, HITS_PATH, ".hit")
+def get_fasta_file_path(fasta_ref, fastq):
+    path = get_path(fasta_ref, fastq, FASTA_PATH, ".hit")
     return path
 
-def get_hit_fastq_path(fasta_ref, fastq):
+
+def get_fastq_file_path(fasta_ref, fastq):
     path = get_path(fasta_ref, fastq, HIT_FASTQ_PATH, ".fastq")
     return path
+
 
 def get_blast_file_path(fasta_ref, fastq):
     path = get_path(fasta_ref, fastq, BLAST_PATH, ".blast")
     return path
 
+
 def get_bam_file_path(fasta_ref, fastq):
     path = get_path(fasta_ref, fastq, BAM_PATH, ".bam")
     return path
+
 
 def get_vcf_file_path(fasta_ref, fastq):
     path = get_path(fasta_ref, fastq, VCF_PATH, ".vcf.gz")
     return path
 
+
 def get_depth_file_path(fasta_ref, fastq):
     path = get_path(fasta_ref, fastq, DEPTH_PATH, ".tsv")
     return path
 
+
 def get_cns_file_path(fasta_ref, fastq):
     path = get_path(fasta_ref, fastq, CONSENSUS_FILES, ".fa")
     return path
+
+
+def get_blast_db_path(fastq):

@@ -6,7 +6,7 @@ from os.path import abspath
 CORES = int(6)
 
 # WORK LOCATIONS
-FASTA_FILES = abspath("fasta_files")
+FASTQ_PATH = abspath("fastq_files")
 HITS_PATH = abspath("hit_files")
 HIT_FASTQ_PATH = abspath("hit_fastq_files")
 BLAST_PATH = abspath('blast_files')
