@@ -44,6 +44,11 @@ def get_blast_file_path(fasta_ref, fastq):
     return path
 
 
+def get_bam_file_working_path(fasta_ref, fastq):
+    path = get_path(fasta_ref, fastq, BAM_PATH, ".working.bam")
+    return path
+
+
 def get_bam_file_path(fasta_ref, fastq):
     path = get_path(fasta_ref, fastq, BAM_PATH, ".bam")
     return path
@@ -67,3 +72,15 @@ def get_cns_file_path(fasta_ref, fastq):
 def get_blast_db_path(fastq):
     fastq_name = os.path.basename(fastq).rsplit(".", 1)[0]
     return fastq_name
+
+def get_fastq_pair_name(fw_fq, rv_fq):
+    fq1 = os.path.basename(fw_fq).rsplit(".")[0]
+    fq2 = os.path.basename(rv_fq).rsplit(".")[0]
+    new_name = ""
+    for i, j in zip(fq1, fq2):
+        if i == j:
+            new_name += i
+        else:
+            new_name += "."
+            break
+    return new_name

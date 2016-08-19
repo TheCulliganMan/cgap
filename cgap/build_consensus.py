@@ -4,6 +4,7 @@
 import os
 import subprocess as sp
 
+
 from .config import MARK_DUPLICATES_JAR_PATH
 from .config import SAMTOOLS_PATH
 from .config import BWA_PATH
@@ -12,6 +13,14 @@ from .config import TABIX_PATH
 from .config import BCFTOOLS_PATH
 from .config import MASK_MIN_QUALITY
 from .config import MASK_MIN_DEPTH
+
+
+from .make_paths import get_bam_file_working_path
+from .make_paths import get_bam_file_path
+from .make_paths import get_vcf_file_path
+from .make_paths import get_depth_file_path
+from .make_paths import get_cns_file_path
+from .make_paths import get_fastq_pair_name
 
 
 def samtools_index_fasta(fasta_path):
@@ -171,22 +180,21 @@ def build_consensus(vcf_file_out, ref_file, depth_file, cns_file):
     return True
 
 
-def pipe_consensus(
-        ref_file,
-        fw_fq,
-        rv_fq,
-        bamfile_working,
-        bamfile_final,
-        vcf_file_out,
-        depth_file,
-        cns_file
-    ):
+def pipe_consensus(fasta, fw_fq, rv_fq):
 
-    build_fasta_indices(ref_file)
-    build_working_bam(ref_file, fw_fq, rv_fq, bamfile_working)
+    pair_name = get_fastq_pair_name(fw_fq, rv_fq)
+
+    bamfile_working = get_bam_file_working_path(fasta, pair_name)
+    bamfile_final = get_bam_file_path(fasta, pair_name)
+    vcf_file_out = get_vcf_file_path(fasta, pair_name)
+    depth_file = get_depth_file_path(fasta, pair_name)
+    cns_file = get_cns_file_path(fasta, pair_name)
+
+    build_fasta_indices(fasta)
+    build_working_bam(fasta, fw_fq, rv_fq, bamfile_working)
     build_final_bam(bamfile_working, bamfile_final)
-    vcf_file_out = build_vcf(ref_file, bamfile_final, vcf_file_out)
+    vcf_file_out = build_vcf(fasta, bamfile_final, vcf_file_out)
     build_depth_file(vcf_file_out, depth_file)
-    build_consensus(vcf_file_out, ref_file, depth_file, cns_file)
+    build_consensus(vcf_file_out, fasta, depth_file, cns_file)
 
     return True

@@ -3,13 +3,19 @@
 
 import cgap
 
-#cgap.make_paths()
+
 
 fastqs = ['sm_test.1.fq','sm_test.2.fq']
-fasta_ref = 'Opn1mw.fa'
+fastas = ['Opn1mw.fa']
 
+# Setup for cgap run
+cgap.make_paths()
+
+# Create small fastqs
 for fastq in fastqs:
-    pass
-    #cgap.run_format_cmd(fastq)
-    #cgap.run_blast(fasta_ref, fastq)
-    cgap.collect_hits([fasta_ref], fastq)
+    cgap.run_format_cmd(fastq)
+    for fasta in fastas:
+        cgap.run_blast(fasta, fastq)
+    cgap.collect_hits([fasta], fastq)
+
+cgap.pipe_consensus(fastas[0], fastqs[0], fastqs[1])
