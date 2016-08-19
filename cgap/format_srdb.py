@@ -1,16 +1,10 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-def format_srdb(reads):
-    """
-    Inputs:
-        Read Files
-    Returns:
-        True
-    Description:
-        Makes commands to create a blast database.
-    """
-    format_commands = []
-    for file_name in reads:
-        format_commands.append("perl bin/formatSRDB.pl {file_name} ".format(**locals()))
+def format_srdb_cmds(file_name):
+    cmd = ["perl", "bin/formatSRDB.pl", file_name]
+    return cmd
 
-    return format_commands
+def run_format_cmd(fastq):
+    format_srdb_cmds(fastq)
+    return sp.call(cmd)

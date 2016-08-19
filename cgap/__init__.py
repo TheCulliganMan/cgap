@@ -1,11 +1,8 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-from os.path import basename
-
-#from get_blast import make_blast_commands
-#from format_srdb import format_srdb
-#from get_hits import make_hits_commands
+from format_srdb import run_format_cmd
+from get_blast import run_blast
+from make_hits import get_hits
+from collect_hits import collect_hits
 from build_consensus import pipe_consensus
-
-def create_file_names():
-    blast_file = '{read}.{s}.{n}.blast'.format(**locals())

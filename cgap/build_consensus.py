@@ -182,9 +182,6 @@ def pipe_consensus(
         cns_file
     ):
 
-    if not vcf_file_out.endswith('.gz'):
-        vcf_file_out += ".gz"
-
     build_fasta_indices(ref_file)
     build_working_bam(ref_file, fw_fq, rv_fq, bamfile_working)
     build_final_bam(bamfile_working, bamfile_final)
@@ -193,16 +190,3 @@ def pipe_consensus(
     build_consensus(vcf_file_out, ref_file, depth_file, cns_file)
 
     return True
-
-
-if __name__ == "__main__":
-    pipe_consensus(
-            "../Opn1mw.fa", #needs to be indexed first
-            "../sm_test.1.fq",
-            "../sm_test.2.fq",
-            'bamfile_working.bam',
-            'bamfile_final.bam',
-            'vcf_file_out.vcf',
-            'depth_file.tsv',
-            'cns_file.fa'
-        )
