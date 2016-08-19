@@ -17,14 +17,21 @@ def run_format_cmd(fastq_path):
                   '-n', fastq_path,
                   '-p', 'F']
 
-    p1 = Popen(
+    p1 = sp.Popen(
         format_cmd,
-        stdin=subprocess.PIPE
+        stdin=sp.PIPE
     )
 
     fasta_generator = fastq_to_fasta(fastq_path)
 
     for fasta_record in fasta_generator:
-        p1.stdin.write(fasta_record)
+        p1.stdin.write(fasta_record.encode())
 
     return True
+
+
+def test():
+    run_format_cmd('../sm_test.2.fq')
+
+if __name__ == "__main__":
+    test()

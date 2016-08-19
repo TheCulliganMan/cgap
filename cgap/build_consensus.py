@@ -4,14 +4,14 @@
 import os
 import subprocess as sp
 
-from config import MARK_DUPLICATES_JAR_PATH
-from config import SAMTOOLS_PATH
-from config import BWA_PATH
-from config import NOVOSORT_PATH
-from config import TABIX_PATH
-from config import BCFTOOLS_PATH
-from config import MASK_MIN_QUALITY
-from config import MASK_MIN_DEPTH
+from .config import MARK_DUPLICATES_JAR_PATH
+from .config import SAMTOOLS_PATH
+from .config import BWA_PATH
+from .config import NOVOSORT_PATH
+from .config import TABIX_PATH
+from .config import BCFTOOLS_PATH
+from .config import MASK_MIN_QUALITY
+from .config import MASK_MIN_DEPTH
 
 
 def samtools_index_fasta(fasta_path):

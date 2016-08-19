@@ -3,14 +3,14 @@
 
 import os
 
-from config import FASTQ_PATH
-from config import HITS_PATH
-from config import HIT_FASTQ_PATH
-from config import BLAST_PATH
-from config import BAM_PATH
-from config import VCF_PATH
-from config import DEPTH_PATH
-from config import CONSENSUS_FILES
+from .config import FASTQ_PATH
+from .config import HITS_PATH
+from .config import HIT_FASTQ_PATH
+from .config import BLAST_PATH
+from .config import BAM_PATH
+from .config import VCF_PATH
+from .config import DEPTH_PATH
+from .config import CONSENSUS_FILES
 
 def make_paths():
     directories = [FASTQ_PATH,
@@ -73,3 +73,5 @@ def get_cns_file_path(fasta_ref, fastq):
 
 
 def get_blast_db_path(fastq):
+    fastq_name = os.basename(fastq).rsplit(".")[0]
+    return fastq_name

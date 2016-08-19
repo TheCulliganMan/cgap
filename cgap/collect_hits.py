@@ -5,8 +5,8 @@ import os
 
 from Bio import SeqIO
 
-from make_paths import get_blast_file_path
-from make_paths import get_fastq_file_path
+from .make_paths import get_blast_file_path
+from .make_paths import get_fastq_file_path
 
 def yield_hits(fasta_ref, fastq):
     blast_file = get_blast_file_path(fasta_ref, fastq)
