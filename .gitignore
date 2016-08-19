@@ -94,6 +94,9 @@ bin/
 fary/
 rachel_visual_genes/
 queryWork/
+
+# common cgap extensions
+
 *.fa
 *.fasta
 *.vcf
@@ -118,3 +121,4 @@ queryWork/
 *.pac
 *.fai
 *.vcf.gz
+*.hit

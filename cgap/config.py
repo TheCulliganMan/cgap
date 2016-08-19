@@ -32,5 +32,5 @@ MASK_MIN_QUALITY = int(20)
 ## Integers only!!!
 MASK_MIN_DEPTH = int(4)
 
-## Minimum Blast Score
-MIN_BLAST_SCORE = float(50.0)
+## Minimum Blast Score #we used 50.0
+MIN_BLAST_SCORE = float(20.0)

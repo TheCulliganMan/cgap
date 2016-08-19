@@ -12,6 +12,4 @@ for fastq in fastqs:
     pass
     #cgap.run_format_cmd(fastq)
     #cgap.run_blast(fasta_ref, fastq)
-
-
-cgap.collect_hits([fasta_ref], fastq)
+    cgap.collect_hits([fasta_ref], fastq)

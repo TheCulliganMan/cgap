@@ -35,7 +35,7 @@ def get_path(fasta_ref, fastq, directory, ext):
 
 
 def get_fastq_file_path(fasta_ref, fastq):
-    path = get_path(fasta_ref, fastq, FASTQ_PATH, ".hit")
+    path = get_path(fasta_ref, fastq, FASTQ_PATH, ".fastq")
     return path
 
 
