@@ -3,8 +3,6 @@
 
 import cgap
 
-
-
 fastqs = ['sm_test.1.fq','sm_test.2.fq']
 fastas = ['Opn1mw.fa']
 
@@ -18,4 +16,5 @@ for fastq in fastqs:
         cgap.run_blast(fasta, fastq)
     cgap.collect_hits([fasta], fastq)
 
+# generate consensus
 cgap.pipe_consensus(fastas[0], fastqs[0], fastqs[1])
