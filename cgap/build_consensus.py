@@ -198,3 +198,10 @@ def pipe_consensus(fasta, fw_fq, rv_fq):
     build_consensus(vcf_file_out, fasta, depth_file, cns_file)
 
     return True
+
+def pipe_consensus_argslist(args):
+    if len(args) == 3:
+        fasta, fw_rd, rv_rd = args
+        pipe_consensus(fasta, fw_rd, rv_rd)
+        return True
+    return False

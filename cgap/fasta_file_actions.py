@@ -12,7 +12,7 @@ def get_fasta_paths(fasta_dir):
         if not fasta.endswith(fa_ext):
             continue
         rel_path = os.path.join(fasta_dir, fasta)
-        abs_path = os.path.abs_path(path)
+        abs_path = os.path.abspath(rel_path)
         yield abs_path
 
 def bwa_index_fasta(fasta_path):

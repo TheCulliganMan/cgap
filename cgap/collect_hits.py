@@ -74,3 +74,10 @@ def collect_hits(fasta_refs, fastq):
         reference_hit_dict,
         hit_dict
     )
+
+def collect_hits_argslist(args):
+    if len(args) == 2:
+        fastas, fastq = args
+        collect_hits(fastas, fastq)
+        return True
+    return False

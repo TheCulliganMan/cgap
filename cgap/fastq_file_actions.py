@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
-def pair_fastq_files(forward, reverse):
+def pair_fastqs(forward_reads, reverse_reads):
 
-    if len(forward) != len(reverse):
-        return False
+    for i, j in zip(forward_reads, reverse_reads):
 
-    for fw, rv in zip(forward, reverse):
-        yield (fw, rv)
+        yield (i, j)
