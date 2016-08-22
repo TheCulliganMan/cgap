@@ -1,4 +1,4 @@
-# cgap_v2
+# cgap
 
 ##What it is:
 cgap is a gene extraction pipeline.  It deals with large fastq files by parsing
