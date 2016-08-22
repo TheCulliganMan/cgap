@@ -7,6 +7,7 @@ def get_fasta_names(fasta_paths):
         yield fasta_name
 
 def get_fasta_paths(fasta_dir):
+    ''' Returns the absolute path of a fasta reference '''
     fa_ext = ('.fa', '.fasta', '.fna')
     for fasta in os.listdir(fasta_dir):
         if not fasta.endswith(fa_ext):
