@@ -32,8 +32,9 @@ blast => hits files => bwa => (samtools, bcftools, novosort) => consensus sequen
 3. Run the cgap command.
 
   ```bash
-  python cgap.py \
+  python run_cgap.py \
     -refs_path <directory where fastas are located> \
     -forward <fastq_1_fw> <fastq_1_fw> <fastq_1_fw> \
-    -reverse <fastq_2_rv> <fastq_2_rv> <fastq_2_rv>
+    -reverse <fastq_2_rv> <fastq_2_rv> <fastq_2_rv> \
+    -c 5; #number of cores
   ```
