@@ -9,15 +9,31 @@ blast => hits files => bwa => (samtools, bcftools, novosort) => consensus sequen
 ##How to use it:
 1. First clone the repository.
 
-```bash
-git clone https://github.com/TheCulliganMan/cgap_v2.git
-```
+  ```bash
+  git clone https://github.com/TheCulliganMan/cgap_v2.git
+  ```
 
-2. Run the cgap command.
+3. Use our docker image with the required binaries, or compile your own software.
 
-```bash
-python cgap.py \
-  -refs_path <directory where fastas are located> \
-  -forward <fastq_1.1> <fastq_1.2> <fastq_1.3> \
-  -reverse <fastq_2.1> <fastq_2.2> <fastq_2.3>;
-```
+  ```bash
+  docker pull theculliganman/cgap
+  docker run -itv <your directory>:/work theculliganman/cgap /bin/bash
+  ```
+  Requirements:
+  1. samtools
+  2. bcftools
+  3. bwa
+  4. novosort
+  5. tabix
+  6. blast
+  7. biopython
+
+
+3. Run the cgap command.
+
+  ```bash
+  python cgap.py \
+    -refs_path <directory where fastas are located> \
+    -forward <fastq_1_fw> <fastq_1_fw> <fastq_1_fw> \
+    -reverse <fastq_2_rv> <fastq_2_rv> <fastq_2_rv>
+  ```
