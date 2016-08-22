@@ -21,3 +21,10 @@ def run_blast(fasta_ref, fastq):
         p1 = sp.Popen(cmd, stdout=output_handle)
         p1.communicate()
     return True
+
+def run_blast_argslist(args):
+    if len(args) == 2:
+        fasta, fastq = args
+        run_blast(fasta, fastq)
+        return True
+    return False

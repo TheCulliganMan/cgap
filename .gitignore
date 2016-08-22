@@ -95,6 +95,15 @@ fary/
 rachel_visual_genes/
 queryWork/
 
+#folders
+
+bam_files/
+blast_files/
+consensus_files/
+depth_files/
+fastq_files/
+vcf_files/
+
 # common cgap extensions
 
 *.fa

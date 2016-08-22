@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import subprocess as sp
 
 from Bio import SeqIO
@@ -20,10 +21,7 @@ def run_format_cmd(fastq):
                   '-n', db_name,
                   '-p', 'F']
 
-    p1 = sp.Popen(
-        format_cmd,
-        stdin=sp.PIPE,
-    )
+    p1 = sp.Popen(format_cmd, stdin=sp.PIPE)
 
     fasta_generator = fastq_to_fasta(fastq)
 
@@ -34,10 +32,3 @@ def run_format_cmd(fastq):
     p1.communicate()
 
     return True
-
-
-def test():
-    run_format_cmd('../sm_test.2.fq')
-
-if __name__ == "__main__":
-    test()
