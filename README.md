@@ -10,7 +10,7 @@ blast => hits files => bwa => (samtools, bcftools, novosort) => consensus sequen
 1. First clone the repository.
 
   ```bash
-  git clone https://github.com/TheCulliganMan/cgap_v2.git
+  git clone https://github.com/TheCulliganMan/cgap.git
   ```
 
 3. Use our docker image with the required binaries, or compile your own software.
