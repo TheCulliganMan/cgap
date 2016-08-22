@@ -10,7 +10,7 @@ blast => hits files => bwa => (samtools, bcftools, novosort) => consensus sequen
 1. First clone the repository.
 
 ```bash
-git clone
+git clone https://github.com/TheCulliganMan/cgap_v2.git
 ```
 
 2. Run the cgap command.
@@ -19,5 +19,5 @@ git clone
 python cgap.py \
   -refs_path <directory where fastas are located> \
   -forward <fastq_1.1> <fastq_1.2> <fastq_1.3> \
-  -reverse <fastq_2.1> <fastq_2.2> <fastq_2.3>
+  -reverse <fastq_2.1> <fastq_2.2> <fastq_2.3>;
 ```
