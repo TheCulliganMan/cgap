@@ -59,6 +59,7 @@ def main():
     # Setup for cgap run
     cgap.make_paths()
     refs_path, forward_reads, reverse_reads, cores = cgap_parser()
+    fastqs = forward_reads + reverse_reads
     fastas = list(cgap.get_fasta_paths(refs_path))
 
     # Create small fastqs
