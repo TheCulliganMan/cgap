@@ -4,6 +4,8 @@
 import os
 import subprocess as sp
 
+from Bio import SeqIO
+from Bio.Seq import Seq
 
 from .config import MARK_DUPLICATES_JAR_PATH
 from .config import SAMTOOLS_PATH
@@ -118,6 +120,29 @@ def bcftools_query():
     return cmd
 
 
+def get_fasta_record(fasta_path):
+    with open(fasta_path) as input_handle:
+        for record in SeqIO.parse(input_handle, 'fasta'):
+            return record
+    return False
+
+def write_fasta_record(record, file_path):
+    with open(file_path, "w+") as output_handle:
+        SeqIO.write(record, output_handle, 'fasta')
+    return True
+
+def remask_if_empty(fasta_ref, cns_path):
+    if os.stat(cns_path).st_size: #if file has a size
+        return True
+
+    record = get_fasta_record(fasta_ref)
+    if record:
+        new_seq = Seq("".join(["N" for char in record.seq]))
+        record.seq = new_seq
+        return write_fasta_record(record, cns_path)
+    return False
+
+
 def build_fasta_indices(fasta_path):
     ''' builds fasta indices '''
     bwa_cmd = bwa_index_fasta(fasta_path)
@@ -215,6 +240,7 @@ def pipe_consensus(fasta, fw_fq, rv_fq):
     vcf_file_out = build_vcf(fasta, bamfile_final, vcf_file_out)
     build_depth_file(vcf_file_out, depth_file)
     build_consensus(vcf_file_out, fasta, depth_file, cns_file)
+    remask_if_empty(fasta, cns_file)
 
     return True
 
