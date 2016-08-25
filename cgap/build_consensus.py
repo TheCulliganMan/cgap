@@ -121,17 +121,20 @@ def bcftools_query():
 
 
 def get_fasta_record(fasta_path):
+    '''returns a single fasta file record'''
     with open(fasta_path) as input_handle:
         for record in SeqIO.parse(input_handle, 'fasta'):
             return record
     return False
 
 def write_fasta_record(record, file_path):
+    '''writes a fasta file record'''
     with open(file_path, "w+") as output_handle:
         SeqIO.write(record, output_handle, 'fasta')
     return True
 
 def remask_if_empty(fasta_ref, cns_path):
+    '''remasks the consensus if there is no file size.'''
     if os.stat(cns_path).st_size: #if file has a size
         return True
 
