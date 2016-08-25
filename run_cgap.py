@@ -62,38 +62,49 @@ def main():
     fastas = list(cgap.get_fasta_paths(refs_path))
 
     # Create small fastqs
-    format_commands = []
-    blast_commands = []
-    hit_commands = []
+    cmd_dict = {
+        'format_cmds':[],
+        'blast_cmds':[],
+        'hit_cmds':[],
+        'phylip_cmds':[],
+        'cns_cmds':[]
+    }
 
     for fastq in fastqs:
-        format_commands.append(fastq)
-        hit_commands.append((fastas, fastq))
+
+        cmd_dict['format_cmds'].append(fastq)
+        cmd_dict['hit_cmds'].append((fastas, fastq))
+        cmd_dict['phylip_cmds'].append((fasta, forward_reads, reverse_reads))
+
         for fasta in fastas:
-            blast_commands.append((fasta, fastq))
+
+            cmd_dict['blast_cmds'].append((fasta, fastq))
+
+
+    for fasta in fastas:
+
+        for fw_rd, rv_rd in cgap.pair_fastqs(forward_reads, reverse_reads):
+
+                cmd_dict['cns_cmds'].append((fasta, fw_rd, rv_rd))
+
 
     print("RUNNING CGAP ON {} CORES".format(cores))
     p = Pool(cores)
+
     print("FORMATTING BLAST DATABASES...")
-    p.map(cgap.run_format_cmd, format_commands)
+    p.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
+
     print("RUNNING BLAST...")
-    p.map(cgap.run_blast_argslist, blast_commands)
+    p.map(cgap.run_blast_argslist, cmd_dict['blast_cmds'])
+
     print("COLLECTING AND BINNING BLAST HITS")
-    p.map(cgap.collect_hits_argslist, hit_commands)
+    p.map(cgap.collect_hits_argslist, cmd_dict['hit_cmds'])
 
-    # generate consensus
-    cns_commands = []
-    for fasta in fastas:
-        for fw_rd, rv_rd in cgap.pair_fastqs(forward_reads, reverse_reads):
-                cns_commands.append((fasta, fw_rd, rv_rd))
     print("BUILDING CONSENSUS SEQUENCES")
-    p.map(cgap.pipe_consensus_argslist, cns_commands)
+    p.map(cgap.pipe_consensus_argslist, cmd_dict['cns_cmds'])
 
-    phylip_commands = []
-    for fasta in fastas:
-        phylip_commands.append((fasta, forward_reads, reverse_reads))
     print("BUILDING PHYLIP FILES")
-    p.map(cgap.build_phylip_records_argslist, phylip_commands)
+    p.map(cgap.build_phylip_records_argslist, cmd_dict['phylip_cmds'])
 
 if __name__ == '__main__':
     main()
