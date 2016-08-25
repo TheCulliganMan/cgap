@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-
 from Bio import SeqIO
 
 from .config import MIN_BLAST_SCORE
@@ -15,7 +13,6 @@ def yield_hits(fasta_ref, fastq):
     blast_file = get_blast_file_path(fasta_ref, fastq)
     with open(blast_file) as input_handle:
         for line in input_handle:
-            found = False
             columns = line.split()
             try:
                 if float(columns[11]) >= MIN_BLAST_SCORE:

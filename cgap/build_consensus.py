@@ -11,8 +11,6 @@ from .config import BWA_PATH
 from .config import NOVOSORT_PATH
 from .config import TABIX_PATH
 from .config import BCFTOOLS_PATH
-from .config import MASK_MIN_QUALITY
-from .config import MASK_MIN_DEPTH
 
 
 from .make_paths import get_bam_file_working_path
@@ -139,8 +137,10 @@ def build_working_bam(ref_file, fw_fq, rv_fq, bamfile_working):
     p1 = sp.Popen(bwa_cmd, stdout = sp.PIPE)
     p2 = sp.Popen(sam_cmd, stdin = p1.stdout, stdout=sp.PIPE)
     p3 = sp.Popen(nov_cmd, stdin = p2.stdout)
+
     status = p3.communicate()
-    return True
+
+    return status
 
 
 def build_final_bam(bamfile_working, bamfile_final):
@@ -168,7 +168,7 @@ def build_vcf(ref_file, bamfile_final, vcf_file_out):
         p3 = sp.Popen(buz_cmd, stdin = p2.stdout, stdout = output_handle)
         p3.communicate()
 
-    status = sp.call(idx_cmd)
+    sp.call(idx_cmd)
 
     return vcf_file_out
 
@@ -194,9 +194,9 @@ def build_consensus(vcf_file_out, ref_file, depth_file, cns_file):
                '-m', depth_file]
 
     with open(cns_file, 'w+') as output_handle:
-        p1 = sp.call(cns_cmd, stdout=output_handle)
+        status = sp.call(cns_cmd, stdout=output_handle)
 
-    return True
+    return status
 
 
 def pipe_consensus(fasta, fw_fq, rv_fq):

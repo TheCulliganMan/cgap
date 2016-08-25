@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
-import os
 import cgap
-from multiprocessing import Pool
+from multiprocessing import Pool, cpu_count
 
 
 def cgap_parser():
@@ -46,7 +45,7 @@ def cgap_parser():
         dest = "cores",
         help = "Number of cores to run on",
         type = int,
-        default = 1
+        default = cpu_count()
     )  # number of cores
 
     args = parser.parse_args()
@@ -73,6 +72,7 @@ def main():
         for fasta in fastas:
             blast_commands.append((fasta, fastq))
 
+    print("RUNNING CGAP ON {} CORES".format(cores))
     p = Pool(cores)
     print("FORMATTING BLAST DATABASES...")
     p.map(cgap.run_format_cmd, format_commands)
