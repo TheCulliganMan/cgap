@@ -1,5 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1b52bcb34a74497fa04336c3234b8321)](https://www.codacy.com/app/rrculligan/cgap?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TheCulliganMan/cgap&amp;utm_campaign=Badge_Grade)
 # cgap
-
 ##What it is:
 cgap is a gene extraction pipeline.  It deals with large fastq files by parsing
 them with blast to speed bwa alignment on a reference file.  This amounts to
