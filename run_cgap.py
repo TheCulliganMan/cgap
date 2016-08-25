@@ -89,5 +89,11 @@ def main():
     print("BUILDING CONSENSUS SEQUENCES")
     p.map(cgap.pipe_consensus_argslist, cns_commands)
 
+    phylip_commands = []
+    for fasta in fastas:
+        phylip_commands.append((fasta, forward_reads, reverse_reads))
+    print("BUILDING PHYLIP FILES")
+    p.map(cgap.build_phylip_records_argslist, phylip_commands)
+
 if __name__ == '__main__':
     main()

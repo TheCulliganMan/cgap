@@ -9,6 +9,7 @@ from .config import BAM_PATH
 from .config import VCF_PATH
 from .config import DEPTH_PATH
 from .config import CONSENSUS_FILES
+from .config import PHYLIP_FILES
 
 def make_paths():
     ''' Builds directories for cgap to use '''
@@ -17,7 +18,8 @@ def make_paths():
                    BAM_PATH,
                    VCF_PATH,
                    DEPTH_PATH,
-                   CONSENSUS_FILES]
+                   CONSENSUS_FILES,
+                   PHYLIP_FILES]
     for directory in directories:
         if not os.path.isdir(directory):
             os.makedirs(directory)
@@ -75,6 +77,18 @@ def get_depth_file_path(fasta_ref, fastq):
 def get_cns_file_path(fasta_ref, fastq):
     ''' builds a consensus file path '''
     path = get_path(fasta_ref, fastq, CONSENSUS_FILES, "fa")
+    return path
+
+
+def get_phylip_file_path(fasta_ref):
+    ''' builds a consensus file path '''
+    directory = PHYLIP_FILES
+    fasta_name = os.path.basename(fasta_ref).rsplit(".", 1)[0]
+    file_name = "{}.{}".format(
+        fasta_name,
+        "phy"
+    )
+    path = os.path.join(directory, file_name)
     return path
 
 

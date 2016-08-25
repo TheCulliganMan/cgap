@@ -14,7 +14,6 @@ from .config import NOVOSORT_PATH
 from .config import TABIX_PATH
 from .config import BCFTOOLS_PATH
 
-
 from .make_paths import get_bam_file_working_path
 from .make_paths import get_bam_file_path
 from .make_paths import get_vcf_file_path

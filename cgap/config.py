@@ -14,6 +14,7 @@ BAM_PATH = abspath('bam_files')
 VCF_PATH = abspath('vcf_files')
 DEPTH_PATH = abspath('depth_files')
 CONSENSUS_FILES = abspath('consensus_files')
+PHYLIP_FILES = abspath('phylip_files')
 
 # PROGRAM LOCATIONS
 MARK_DUPLICATES_JAR_PATH = "/cGAP/bin/MarkDuplicates.jar"
