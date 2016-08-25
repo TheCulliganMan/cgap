@@ -8,7 +8,7 @@ with open('README.md') as f:
     readme = f.read()
 
 with open('LICENSE') as f:
-    license = f.read()
+    this_license = f.read()
 
 setup(
     name='cgap_v2',
@@ -18,6 +18,6 @@ setup(
     author='Ryan Culligan',
     author_email='rrculligan@gmail.com',
     url='https://github.com/TheCulliganMan/cgap_v2',
-    license=license,
+    license=this_license,
     packages=find_packages(exclude=('tests', 'docs'))
 )
