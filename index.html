@@ -28,6 +28,20 @@
     </p>
     <h3>How it works:</h3>
     <img src="media/img/cgap_flow_graph.svg">
+    <h3>How to use it:</h3>
+    <p>
+      cgap is structured like a python module.  This means that if you add it to the python path, it can be imported and customized.
+      However, it also has command line function for easy use in bash.
+    </p>
+    <p>Calling cgap in bash is easy:</p>
+    <code>
+      python run_cgap.py \
+  -refs_path <directory where fastas are located> \
+  -forward <fastq_1_fw> <fastq_1_fw> <fastq_1_fw> \
+  -reverse <fastq_2_rv> <fastq_2_rv> <fastq_2_rv> \
+  -c 5; #number of cores
+    </code>
+
     <footer class="site-footer">
       <span class="site-footer-owner"><a href="https://github.com/TheCulliganMan/cgap">Cgap</a> is maintained by <a href="https://github.com/TheCulliganMan">TheCulliganMan</a>.</span>
 
