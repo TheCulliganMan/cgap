@@ -35,11 +35,26 @@
     </p>
     <p>Calling cgap in bash is easy:</p>
     <code>
-      python run_cgap.py \
-  -refs_path <directory where fastas are located> \
-  -forward <fastq_1_fw> <fastq_1_fw> <fastq_1_fw> \
-  -reverse <fastq_2_rv> <fastq_2_rv> <fastq_2_rv> \
-  -c 5; #number of cores
+      python run_cgap.py
+        -refs_path <directory where fastas are located>
+        -forward <fastq_1_fw> <fastq_1_fw>
+        -reverse <fastq_2_rv> <fastq_2_rv>
+        -c 5;
+    </code>
+    <p>
+      To change alternate parameters in cgap, edit the config.py file.
+      This determines the paths of outputfolders to be created, and the paths
+      to the programs necessary to run cgap on your local computer.
+    </p>
+    <p>
+      To avoid the work of compiling software that will work with cgap.  There
+      is an image on the docker hub that contains all of the binaries necessary
+      to run cgap.  You can run from a standard docker run command, but it is
+      suggested that you enter an interactive session, as it is easier.
+    </p>
+    <p>Docker command:</p>
+    <code>
+      docker run -itv <your directory>:/work theculliganman/cgap /bin/bash
     </code>
 
     <footer class="site-footer">
