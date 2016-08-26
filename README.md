@@ -22,8 +22,8 @@ substantial time savings
   docker run -itv <your directory>:/work theculliganman/cgap /bin/bash
   ```
   Requirements:
-  * biopython [version: 1.66]
   * python [python version: 3.5.1, anaconda: 2.5.0]
+  * biopython [version: 1.66]
   * samtools [version: 1.3]
   * bcftools [version: 1.2]
   * htslib [version: 1.3]
