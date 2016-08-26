@@ -7,7 +7,7 @@ substantial time savings
 ##How it works:
 
 ![alt text][cgap workflow]
-[cgap workflow]: media/cgap_graph.svg "cgap workflow"
+[cgap workflow]: https://raw.githubusercontent.com/TheCulliganMan/cgap/master/media/cgap_graph.svg "cgap workflow"
 ##How to use it:
 1. First clone the repository.
 
