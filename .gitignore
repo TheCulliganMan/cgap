@@ -133,3 +133,7 @@ vcf_files/
 *.hit
 
 *.phy
+
+*.iml
+
+*.xml
