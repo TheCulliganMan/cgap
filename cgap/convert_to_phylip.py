@@ -3,8 +3,8 @@
 from Bio import SeqIO
 
 from .make_paths import get_cns_file_path
-from .make_paths import get_phylip_file_path
 from .make_paths import get_fastq_pair_name
+from .make_paths import get_phylip_file_path
 
 def get_cns_files_for_fasta(fasta, fw_fqs, rv_fqs):
     ''' yeilds cns information for a given fasta '''

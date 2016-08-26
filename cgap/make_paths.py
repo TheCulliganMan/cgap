@@ -3,13 +3,13 @@
 
 import os
 
-from .config import FASTQ_PATH
-from .config import BLAST_PATH
 from .config import BAM_PATH
-from .config import VCF_PATH
-from .config import DEPTH_PATH
+from .config import BLAST_PATH
 from .config import CONSENSUS_FILES
+from .config import DEPTH_PATH
+from .config import FASTQ_PATH
 from .config import PHYLIP_FILES
+from .config import VCF_PATH
 
 def make_paths():
     ''' Builds directories for cgap to use '''

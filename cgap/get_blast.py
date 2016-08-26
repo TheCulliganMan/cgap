@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import subprocess as sp
 
-from .make_paths import get_blast_file_path
 from .make_paths import get_blast_db_path
+from .make_paths import get_blast_file_path
 
 def run_blast(fasta_ref, fastq):
     ''' Runs Blast on a local blast database '''

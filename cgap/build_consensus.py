@@ -7,19 +7,18 @@ import subprocess as sp
 from Bio import SeqIO
 from Bio.Seq import Seq
 
-from .config import MARK_DUPLICATES_JAR_PATH
-from .config import SAMTOOLS_PATH
-from .config import BWA_PATH
-from .config import NOVOSORT_PATH
-from .config import TABIX_PATH
 from .config import BCFTOOLS_PATH
-
-from .make_paths import get_bam_file_working_path
+from .config import BWA_PATH
+from .config import MARK_DUPLICATES_JAR_PATH
+from .config import NOVOSORT_PATH
+from .config import SAMTOOLS_PATH
+from .config import TABIX_PATH
 from .make_paths import get_bam_file_path
-from .make_paths import get_vcf_file_path
-from .make_paths import get_depth_file_path
+from .make_paths import get_bam_file_working_path
 from .make_paths import get_cns_file_path
+from .make_paths import get_depth_file_path
 from .make_paths import get_fastq_pair_name
+from .make_paths import get_vcf_file_path
 
 
 def samtools_index_fasta(fasta_path):
