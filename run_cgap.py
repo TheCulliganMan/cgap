@@ -74,7 +74,7 @@ def main():
 
         cmd_dict['format_cmds'].append(fastq)
         cmd_dict['hit_cmds'].append((fastas, fastq))
-        cmd_dict['phylip_cmds'].append((fasta, forward_reads, reverse_reads))
+
 
         for fasta in fastas:
 
@@ -82,6 +82,8 @@ def main():
 
 
     for fasta in fastas:
+
+        cmd_dict['phylip_cmds'].append((fasta, forward_reads, reverse_reads))
 
         for fw_rd, rv_rd in cgap.pair_fastqs(forward_reads, reverse_reads):
 
