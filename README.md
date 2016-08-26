@@ -5,7 +5,9 @@ cgap is a gene extraction pipeline.  It deals with large fastq files by parsing
 them with blast to speed bwa alignment on a reference file.  This amounts to
 substantial time savings
 ##How it works:
-blast => hits files => bwa => (samtools, bcftools, novosort) => consensus sequence.
+
+![alt text][cgap workflow]
+[cgap workflow]: media/cgap_graph.svg "cgap workflow"
 ##How to use it:
 1. First clone the repository.
 
