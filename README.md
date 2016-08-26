@@ -22,14 +22,15 @@ substantial time savings
   docker run -itv <your directory>:/work theculliganman/cgap /bin/bash
   ```
   Requirements:
-  1. samtools
-  2. bcftools
-  3. bwa
-  4. novosort
-  5. tabix
-  6. blast
-  7. biopython
-
+  * biopython [version: 1.66]
+  * python [python version: 3.5.1, anaconda: 2.5.0]
+  * samtools [version: 1.3]
+  * bcftools [version: 1.2]
+  * htslib [version: 1.3]
+  * bwa [version: 0.7.5-r405]
+  * novosort [version: 1.03.03]
+  * tabix [version: 0.2.5]
+  * blastn [version: 2.2.28]
 
 3. Run the cgap command.
 
