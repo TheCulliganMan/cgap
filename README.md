@@ -18,7 +18,7 @@ substantial time savings
 3. Use our docker image with the required binaries, or compile your own software.
 
   ```bash
-  docker pull theculliganman/cgap
+  docker pull theculliganman/cgap:latest
   docker run -itv <your directory>:/work theculliganman/cgap /bin/bash
   ```
   Requirements:
