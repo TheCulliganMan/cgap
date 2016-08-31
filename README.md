@@ -11,13 +11,20 @@ substantial time savings
 ##How to use it:
 1. Update or clone clone the cgap repository.
   * If you don't have cgap:
+
     ```bash
+
     git clone https://github.com/TheCulliganMan/cgap.git
+
     ```
+
   * If you want to update cgap:
+
     ```bash
+
     cd <cgap_dir>;
     git pull;
+
     ```
 3. Use our docker image with the required binaries, or compile your own software.
 
