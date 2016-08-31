@@ -9,7 +9,7 @@ def cgap_parser():
     ''' parses command line arguments for cgap '''
     parser = argparse.ArgumentParser(
         description='Start cGAP: Script for running \
-        Consensus Gene Assembly Program')
+        Consensus Gene Assembly Program.')
 
     parser.add_argument(
         '-refs_path',
@@ -43,10 +43,16 @@ def cgap_parser():
         '-c',
         action = "store",
         dest = "cores",
-        help = "Number of cores to run on",
+        help = "Number of cores on which cgap should run.",
         type = int,
         default = cpu_count()
     )  # number of cores
+
+    parser.add_argument(
+        '-format_db',
+        action = "store_true",
+        help = "If present, format the blast databases."
+    )
 
     args = parser.parse_args()
 
@@ -94,7 +100,8 @@ def main():
     p = Pool(cores)
 
     print("FORMATTING BLAST DATABASES...")
-    p.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
+    if args.format_db:
+        p.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
 
     print("RUNNING BLAST...")
     p.map(cgap.run_blast_argslist, cmd_dict['blast_cmds'])
