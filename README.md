@@ -44,4 +44,5 @@ substantial time savings
     -forward <fastq_1_fw> <fastq_1_fw> <fastq_1_fw> \
     -reverse <fastq_2_rv> <fastq_2_rv> <fastq_2_rv> \
     -c 5; #number of cores
+    -formatdb #[optional, only if they need formatting.]
   ```
