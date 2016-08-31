@@ -6,6 +6,7 @@ from os.path import abspath
 CORES = int(6)
 
 # WORK LOCATIONS
+##Created in your current working directory
 FASTQ_PATH = abspath("fastq_files")
 HITS_PATH = abspath("hit_files")
 HIT_FASTQ_PATH = abspath("hit_fastq_files")
@@ -17,7 +18,7 @@ CONSENSUS_FILES = abspath('consensus_files')
 PHYLIP_FILES = abspath('phylip_files')
 
 # PROGRAM LOCATIONS
-MARK_DUPLICATES_JAR_PATH = "/cGAP/bin/MarkDuplicates.jar"
+MARK_DUPLICATES_JAR_PATH = "/bin/MarkDuplicates.jar"
 SAMTOOLS_PATH = 'samtools'
 BWA_PATH = 'bwa'
 NOVOSORT_PATH = 'novosort'
