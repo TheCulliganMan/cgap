@@ -9,12 +9,16 @@ substantial time savings
 ![alt text][cgap workflow]
 [cgap workflow]: media/cgap_graph.png "cgap workflow"
 ##How to use it:
-1. First clone the repository.
-
-  ```bash
-  git clone https://github.com/TheCulliganMan/cgap.git
-  ```
-
+1. Update or clone clone the cgap repository.
+  * If you don't have cgap:
+    ```bash
+    git clone https://github.com/TheCulliganMan/cgap.git
+    ```
+  * If you want to update cgap:
+    ```bash
+    cd <cgap_dir>;
+    git pull;
+    ```
 3. Use our docker image with the required binaries, or compile your own software.
 
   ```bash
