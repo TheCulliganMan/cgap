@@ -28,16 +28,15 @@ def build_hits_collection(fasta_refs, fastq):
     for fasta_ref in fasta_refs:
 
         if fasta_ref not in reference_hit_dict:
-            reference_hit_dict[fasta_ref] = set()
-
+            reference_hit_dict[fasta_ref] = {'hit_order':[]}
         hits = yield_hits(fasta_ref, fastq)
 
         for fqid in hits:
 
             if fqid not in hit_set:
                 hit_set.add(fqid)
-
-            reference_hit_dict[fasta_ref].add(fqid)
+            reference_hit_dict[fasta_ref]['hit_order'].append(fqid)
+            reference_hit_dict[fasta_ref][fqid]
 
     return hit_set, reference_hit_dict
 
@@ -61,7 +60,7 @@ def write_fastqs(
     for fasta_ref in fasta_refs:
         fastq_path = get_fastq_file_path(fasta_ref, fastq)
         with open(fastq_path, "w+") as output_handle:
-            for fqid in reference_hit_dict[fasta_ref]:
+            for fqid in reference_hit_dict['hit_order']:
                 SeqIO.write(hit_dict[fqid], output_handle, "fastq")
     return True
 
