@@ -36,7 +36,7 @@ def build_hits_collection(fasta_refs, fastq):
             if fqid not in hit_set:
                 hit_set.add(fqid)
             reference_hit_dict[fasta_ref]['hit_order'].append(fqid)
-            reference_hit_dict[fasta_ref][fqid]
+            reference_hit_dict[fasta_ref][fqid] = None
 
     return hit_set, reference_hit_dict
 
