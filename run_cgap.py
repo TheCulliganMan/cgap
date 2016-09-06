@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import argparse
-import cgap
 from multiprocessing import Pool, cpu_count
+
+import argparse
+
+import cgap
 
 
 def cgap_parser():
@@ -13,45 +15,45 @@ def cgap_parser():
 
     parser.add_argument(
         '-refs_path',
-        action = "store",
-        dest = "refs_path",
-        help = "The path where cGAP gene references are stored.",
-        required = True
+        action="store",
+        dest="refs_path",
+        help="The path where cGAP gene references are stored.",
+        required=True
     )  # Directory of query files
 
     parser.add_argument(
         '-forward',
-        action = "store",
-        dest = "forward_reads",
-        nargs = "+",
-        help = "The FORWARD fastq samples that will be \
+        action="store",
+        dest="forward_reads",
+        nargs="+",
+        help="The FORWARD fastq samples that will be \
         used for the run.",
-        required = True
+        required=True
     )
 
     parser.add_argument(
         '-reverse',
-        action = "store",
-        dest = "reverse_reads",
-        nargs = "+",
-        help = "The REVERSE fastq samples that will be used \
+        action="store",
+        dest="reverse_reads",
+        nargs="+",
+        help="The REVERSE fastq samples that will be used \
         for this run.",
-        required = True
+        required=True
     )  # Reverse Short Read Files
 
     parser.add_argument(
         '-c',
-        action = "store",
-        dest = "cores",
-        help = "Number of cores on which cgap should run.",
-        type = int,
-        default = cpu_count()
+        action="store",
+        dest="cores",
+        help="Number of cores on which cgap should run.",
+        type=int,
+        default=cpu_count()
     )  # number of cores
 
     parser.add_argument(
         '-format_db',
-        action = "store_true",
-        help = "If present, format the blast databases."
+        action="store_true",
+        help="If present, format the blast databases."
     )
 
     args = parser.parse_args()
@@ -69,11 +71,11 @@ def main():
 
     # Create small fastqs
     cmd_dict = {
-        'format_cmds':[],
-        'blast_cmds':[],
-        'hit_cmds':[],
-        'phylip_cmds':[],
-        'cns_cmds':[]
+        'format_cmds': [],
+        'blast_cmds': [],
+        'hit_cmds': [],
+        'phylip_cmds': [],
+        'cns_cmds': []
     }
 
     for fastq in fastqs:
@@ -81,20 +83,15 @@ def main():
         cmd_dict['format_cmds'].append(fastq)
         cmd_dict['hit_cmds'].append((fastas, fastq))
 
-
         for fasta in fastas:
-
             cmd_dict['blast_cmds'].append((fasta, fastq))
-
 
     for fasta in fastas:
 
         cmd_dict['phylip_cmds'].append((fasta, forward_reads, reverse_reads))
 
         for fw_rd, rv_rd in cgap.pair_fastqs(forward_reads, reverse_reads):
-
-                cmd_dict['cns_cmds'].append((fasta, fw_rd, rv_rd))
-
+            cmd_dict['cns_cmds'].append((fasta, fw_rd, rv_rd))
 
     print("RUNNING CGAP ON {} CORES".format(cores))
     p = Pool(cores)

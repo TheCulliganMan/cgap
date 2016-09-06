@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 
+
 def get_fasta_paths(fasta_dir):
     """ Returns the absolute path of a fasta reference """
     fa_ext = ('.fa', '.fasta', '.fna')

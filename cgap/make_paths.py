@@ -11,6 +11,7 @@ from .config import FASTQ_PATH
 from .config import PHYLIP_FILES
 from .config import VCF_PATH
 
+
 def make_paths():
     """ Builds directories for cgap to use """
     directories = [FASTQ_PATH,
@@ -96,6 +97,7 @@ def get_blast_db_path(fastq):
     """ builds a blast database path """
     fastq_name = os.path.basename(fastq).rsplit(".", 1)[0]
     return fastq_name
+
 
 def get_fastq_pair_name(fw_fq, rv_fq):
     """ combines forward and reverse fastq names """

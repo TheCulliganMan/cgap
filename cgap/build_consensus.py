@@ -125,15 +125,17 @@ def get_fasta_record(fasta_path):
             return record
     return False
 
+
 def write_fasta_record(record, file_path):
     """writes a fasta file record"""
     with open(file_path, "w+") as output_handle:
         SeqIO.write(record, output_handle, 'fasta')
     return True
 
+
 def remask_if_empty(fasta_ref, cns_path):
     """remasks the consensus if there is no file size."""
-    if os.stat(cns_path).st_size: #if file has a size
+    if os.stat(cns_path).st_size:  # if file has a size
         return True
 
     record = get_fasta_record(fasta_ref)
@@ -160,9 +162,9 @@ def build_working_bam(ref_file, fw_fq, rv_fq, bamfile_working):
     sam_cmd = samtools_view_cmd()
     nov_cmd = novosort_cmd(bamfile_working)
 
-    p1 = sp.Popen(bwa_cmd, stdout = sp.PIPE)
-    p2 = sp.Popen(sam_cmd, stdin = p1.stdout, stdout=sp.PIPE)
-    p3 = sp.Popen(nov_cmd, stdin = p2.stdout)
+    p1 = sp.Popen(bwa_cmd, stdout=sp.PIPE)
+    p2 = sp.Popen(sam_cmd, stdin=p1.stdout, stdout=sp.PIPE)
+    p3 = sp.Popen(nov_cmd, stdin=p2.stdout)
 
     status = p3.communicate()
 
@@ -189,9 +191,9 @@ def build_vcf(ref_file, bamfile_final, vcf_file_out):
     idx_cmd = tabix(vcf_file_out)
 
     with open(vcf_file_out, "w+") as output_handle:
-        p1 = sp.Popen(sam_cmd, stdout = sp.PIPE)
-        p2 = sp.Popen(bcf_cmd, stdin = p1.stdout, stdout = sp.PIPE)
-        p3 = sp.Popen(buz_cmd, stdin = p2.stdout, stdout = output_handle)
+        p1 = sp.Popen(sam_cmd, stdout=sp.PIPE)
+        p2 = sp.Popen(bcf_cmd, stdin=p1.stdout, stdout=sp.PIPE)
+        p3 = sp.Popen(buz_cmd, stdin=p2.stdout, stdout=output_handle)
         p3.communicate()
 
     sp.call(idx_cmd)
@@ -244,6 +246,7 @@ def pipe_consensus(fasta, fw_fq, rv_fq):
     remask_if_empty(fasta, cns_file)
 
     return True
+
 
 def pipe_consensus_argslist(args):
     """ runs the pipe consensus command with 1 argument """

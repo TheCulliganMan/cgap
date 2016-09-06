@@ -7,6 +7,7 @@ from .config import MIN_BLAST_SCORE
 from .make_paths import get_blast_file_path
 from .make_paths import get_fastq_file_path
 
+
 def yield_hits(fasta_ref, fastq):
     """ yields blast hits above a score from a tsv file """
     blast_file = get_blast_file_path(fasta_ref, fastq)
@@ -28,7 +29,7 @@ def build_hits_collection(fasta_refs, fastq):
     for fasta_ref in fasta_refs:
 
         if fasta_ref not in reference_hit_dict:
-            reference_hit_dict[fasta_ref] = {'hit_order':[]}
+            reference_hit_dict[fasta_ref] = {'hit_order': []}
         hits = yield_hits(fasta_ref, fastq)
 
         for fqid in hits:
@@ -64,6 +65,7 @@ def write_fastqs(
                 SeqIO.write(hit_dict[fqid], output_handle, "fastq")
     return True
 
+
 def collect_hits(fasta_refs, fastq):
     """ runs the hits collection pipeline """
     hit_set, reference_hit_dict = build_hits_collection(fasta_refs, fastq)
@@ -74,6 +76,7 @@ def collect_hits(fasta_refs, fastq):
         reference_hit_dict,
         hit_dict
     )
+
 
 def collect_hits_argslist(args):
     """ runs hits collection pipeline with 1 argument """

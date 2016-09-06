@@ -13,4 +13,3 @@ from .format_srdb import run_format_cmd
 from .get_blast import run_blast
 from .get_blast import run_blast_argslist
 from .make_paths import make_paths
-

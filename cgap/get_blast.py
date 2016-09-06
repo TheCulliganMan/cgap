@@ -4,6 +4,7 @@ import subprocess as sp
 from .make_paths import get_blast_db_path
 from .make_paths import get_blast_file_path
 
+
 def run_blast(fasta_ref, fastq):
     """ Runs Blast on a local blast database """
     blast_db = get_blast_db_path(fastq)
@@ -20,6 +21,7 @@ def run_blast(fasta_ref, fastq):
         p1 = sp.Popen(cmd, stdout=output_handle)
         p1.communicate()
     return True
+
 
 def run_blast_argslist(args):
     if len(args) == 2:

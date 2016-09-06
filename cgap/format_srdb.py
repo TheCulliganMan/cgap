@@ -7,6 +7,7 @@ from Bio import SeqIO
 
 from .make_paths import get_blast_db_path
 
+
 def fastq_to_fasta(fastq_path):
     """ Yields out fasta records from fastq file """
     with open(fastq_path) as input_handle:
