@@ -60,7 +60,7 @@ def write_fastqs(
     for fasta_ref in fasta_refs:
         fastq_path = get_fastq_file_path(fasta_ref, fastq)
         with open(fastq_path, "w+") as output_handle:
-            for fqid in reference_hit_dict['hit_order']:
+            for fqid in reference_hit_dict[fasta_ref]['hit_order']:
                 SeqIO.write(hit_dict[fqid], output_handle, "fastq")
     return True
 
