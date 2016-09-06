@@ -6,7 +6,7 @@ from multiprocessing import Pool, cpu_count
 
 
 def cgap_parser():
-    ''' parses command line arguments for cgap '''
+    """ parses command line arguments for cgap """
     parser = argparse.ArgumentParser(
         description='Start cGAP: Script for running \
         Consensus Gene Assembly Program.')
@@ -60,7 +60,7 @@ def cgap_parser():
 
 
 def main():
-    ''' runs all the steps in the cgap pipeline. '''
+    """ runs all the steps in the cgap pipeline. """
     # Setup for cgap run
     cgap.make_paths()
     refs_path, forward_reads, reverse_reads, cores = cgap_parser()

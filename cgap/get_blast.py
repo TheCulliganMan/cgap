@@ -5,7 +5,7 @@ from .make_paths import get_blast_db_path
 from .make_paths import get_blast_file_path
 
 def run_blast(fasta_ref, fastq):
-    ''' Runs Blast on a local blast database '''
+    """ Runs Blast on a local blast database """
     blast_db = get_blast_db_path(fastq)
     blast_file = get_blast_file_path(fasta_ref, fastq)
 

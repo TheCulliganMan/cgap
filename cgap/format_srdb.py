@@ -8,15 +8,15 @@ from Bio import SeqIO
 from .make_paths import get_blast_db_path
 
 def fastq_to_fasta(fastq_path):
-    ''' Yields out fasta records from fastq file '''
+    """ Yields out fasta records from fastq file """
     with open(fastq_path) as input_handle:
         for record in SeqIO.parse(input_handle, 'fastq'):
             yield record.format('fasta')
 
 
 def run_format_cmd(fastq):
-    ''' Runs a blast database format on fasta records
-    from biopython '''
+    """ Runs a blast database format on fasta records
+    from biopython """
     db_name = get_blast_db_path(fastq)
     format_cmd = ['formatdb',
                   '-i', 'stdin',
