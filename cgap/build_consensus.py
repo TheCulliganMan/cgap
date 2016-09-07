@@ -19,6 +19,8 @@ from .make_paths import get_cns_file_path
 from .make_paths import get_depth_file_path
 from .make_paths import get_fastq_pair_name
 from .make_paths import get_vcf_file_path
+from .make_paths import get_fastq_file_path
+
 
 
 def samtools_index_fasta(fasta_path):
@@ -35,7 +37,12 @@ def bwa_index_fasta(fasta_path):
 
 def bwa_mem_cmd(fasta_path, fw_fq, rv_fq):
     """ bwa mem command builder """
-    cmd = [BWA_PATH, 'mem', fasta_path, fw_fq, rv_fq]
+
+    short_fw_fq = get_fastq_file_path(fasta_ref, fw_fq)
+    short_rv_fq = get_fastq_file_path(fasta_ref, rv_fq)
+
+    cmd = [BWA_PATH, 'mem', fasta_path, short_fw_fq, short_rv_fq]
+
     return cmd
 
 
@@ -158,6 +165,7 @@ def build_fasta_indices(fasta_path):
 
 def build_working_bam(ref_file, fw_fq, rv_fq, bamfile_working):
     """ builds first step bamfile """
+
     bwa_cmd = bwa_mem_cmd(ref_file, fw_fq, rv_fq)
     sam_cmd = samtools_view_cmd()
     nov_cmd = novosort_cmd(bamfile_working)
