@@ -38,8 +38,8 @@ def bwa_index_fasta(fasta_path):
 def bwa_mem_cmd(fasta_path, fw_fq, rv_fq):
     """ bwa mem command builder """
 
-    short_fw_fq = get_fastq_file_path(fasta_ref, fw_fq)
-    short_rv_fq = get_fastq_file_path(fasta_ref, rv_fq)
+    short_fw_fq = get_fastq_file_path(fasta_path, fw_fq)
+    short_rv_fq = get_fastq_file_path(fasta_path, rv_fq)
 
     cmd = [BWA_PATH, 'mem', fasta_path, short_fw_fq, short_rv_fq]
 
