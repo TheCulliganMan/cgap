@@ -111,7 +111,7 @@ def tabix(vcf_file_out):
 
 def bcftools_filter(vcf_file_out):
     """ bcftools commmand maker """
-    filter_string = "-i'(%QUAL<{MASK_MIN_QUALITY})||(%QUAL==999)||(DP <= {MASK_MIN_DEPTH})'"
+    filter_string = "-i'(%QUAL<{})||(%QUAL==999)||(DP <= {})'".format(MASK_MIN_QUALITY, MASK_MIN_DEPTH)
     cmd = [BCFTOOLS_PATH, 'filter',
            filter_string,
            vcf_file_out]
