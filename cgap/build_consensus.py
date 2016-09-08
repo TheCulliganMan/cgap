@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import shlex
 import os
 import subprocess as sp
 
@@ -15,6 +15,7 @@ from .config import MASK_MIN_QUALITY
 from .config import NOVOSORT_PATH
 from .config import SAMTOOLS_PATH
 from .config import TABIX_PATH
+
 from .make_paths import get_bam_file_path
 from .make_paths import get_bam_file_working_path
 from .make_paths import get_cns_file_path
@@ -88,7 +89,7 @@ def cat_final_bam(bamfile_final):
 
 def samtools_mpileup(bamfile_final, ref_file):
     """ mpileup command maker """
-    cmd = [SAMTOOLS_PATH, 'mpileup', '-A', '-ug',
+    cmd = [SAMTOOLS_PATH, 'mpileup', '-A', '-ug', '-I',
            '-f', ref_file, '-s', bamfile_final]
     return cmd
 
@@ -113,7 +114,8 @@ def tabix(vcf_file_out):
 
 def bcftools_filter(vcf_file_out):
     """ bcftools commmand maker """
-    filter_string = "-i'(%QUAL<{})||(%QUAL==999)||(DP <= {})'".format(MASK_MIN_QUALITY, MASK_MIN_DEPTH)
+    filter_string = "-i'(DP>={})&(%QUAL>={})'".format(MASK_MIN_DEPTH,
+                                                      MASK_MIN_QUALITY)
     cmd = [BCFTOOLS_PATH, 'filter',
            filter_string,
            vcf_file_out]
@@ -224,6 +226,41 @@ def build_depth_file(vcf_file_out, depth_file):
     return True
 
 
+def read_depth_positions(depth_file):
+    pos_set = set()
+    name = False
+    with open(depth_file) as input_handle:
+        for num, line in enumerate(input_handle):
+            line = line.split("\t")
+            if len(line) == 2:
+                if num == 0:
+                    name = line[0].strip()
+                else:
+                    pos_set.add(int(line[1].strip()))
+    return name, pos_set
+
+
+def write_new_depth_file(fasta, depth_file, name, pos_set):
+    with open(depth_file, "w+") as output_handle:
+        with open(fasta) as input_handle:
+            for record in SeqIO.parse(input_handle, "fasta"):
+                for num, char in enumerate(record.seq, start=1):
+                    if num not in pos_set:
+                        output_handle.write(
+                            "{}\t{}\n".format(name, num)
+                        )
+    return True
+
+
+def invert_extend_depth_file(ref_file, depth_file):
+    name, pos_set = read_depth_positions(depth_file)
+    if name:
+        write_new_depth_file(ref_file, depth_file, name, pos_set)
+    else:
+        open(depth_file, "w+").close()
+    return True
+
+
 def build_consensus(vcf_file_out, ref_file, depth_file, cns_file):
     """ builds masked consensus file """
     cns_cmd = [BCFTOOLS_PATH,
@@ -252,6 +289,7 @@ def pipe_consensus(fasta, fw_fq, rv_fq):
     build_final_bam(bamfile_working, bamfile_final)
     vcf_file_out = build_vcf(fasta, bamfile_final, vcf_file_out)
     build_depth_file(vcf_file_out, depth_file)
+    invert_extend_depth_file(fasta, depth_file)
     build_consensus(vcf_file_out, fasta, depth_file, cns_file)
     remask_if_empty(fasta, cns_file)
 
