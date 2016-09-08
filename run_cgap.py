@@ -58,14 +58,15 @@ def cgap_parser():
 
     args = parser.parse_args()
 
-    return args.refs_path, args.forward_reads, args.reverse_reads, args.cores
+    return args.refs_path, args.forward_reads, \
+    args.reverse_reads, args.cores, args.format_db
 
 
 def main():
     """ runs all the steps in the cgap pipeline. """
     # Setup for cgap run
     cgap.make_paths()
-    refs_path, forward_reads, reverse_reads, cores = cgap_parser()
+    refs_path, forward_reads, reverse_reads, cores, format_db = cgap_parser()
     fastqs = forward_reads + reverse_reads
     fastas = list(cgap.get_fasta_paths(refs_path))
 
@@ -97,7 +98,7 @@ def main():
     p = Pool(cores)
 
     print("FORMATTING BLAST DATABASES...")
-    if args.format_db:
+    if format_db:
         p.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
 
     print("RUNNING BLAST...")
