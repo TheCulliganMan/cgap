@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from Bio import SeqIO
+from Bio import SeqIO, Seq
 
 from .make_paths import get_cns_file_path
 from .make_paths import get_fastq_pair_name
@@ -19,6 +19,7 @@ def read_fasta_record(file_path):
     """ returns the contents of a cgap fasta file """
     with open(file_path) as input_handle:
         for record in SeqIO.parse(input_handle, 'fasta'):
+            record.seq = Seq.Seq(str(record.seq).replace("N","?"))
             return record
     return False
 
