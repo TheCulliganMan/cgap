@@ -123,7 +123,7 @@ def bcftools_filter(vcf_file_out):
 def bcftools_query():
     """ bcftools command maker """
     cmd = [BCFTOOLS_PATH, 'query',
-           "-f'%CHROM\t%POS\n'"]
+           '-f%CHROM\t%POS\n']
     return cmd
 
 
