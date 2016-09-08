@@ -263,7 +263,7 @@ def invert_extend_depth_file(ref_file, depth_file):
 def build_consensus(vcf_file_out, ref_file, depth_file, cns_file):
     """ builds masked consensus file """
     cns_cmd = [BCFTOOLS_PATH,
-               'consensus', vcf_file_out,
+               'consensus', vcf_file_out, '-i',
                '-f', ref_file,
                '-m', depth_file]
 
