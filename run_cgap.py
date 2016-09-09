@@ -95,23 +95,25 @@ def main():
             cmd_dict['cns_cmds'].append((fasta, fw_rd, rv_rd))
 
     print("RUNNING CGAP ON {} CORES".format(cores))
-    p = Pool(cores)
+    p_max = Pool(cores)
+
+    p_stable = Pool(5) if cores >= 5 else Pool(cores)
 
     print("FORMATTING BLAST DATABASES...")
     if format_db:
-        p.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
+        p_stable.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
 
     print("RUNNING BLAST...")
-    p.map(cgap.run_blast_argslist, cmd_dict['blast_cmds'])
+    p_max.map(cgap.run_blast_argslist, cmd_dict['blast_cmds'])
 
     print("COLLECTING AND BINNING BLAST HITS")
-    p.map(cgap.collect_hits_argslist, cmd_dict['hit_cmds'])
+    p_max.map(cgap.collect_hits_argslist, cmd_dict['hit_cmds'])
 
     print("BUILDING CONSENSUS SEQUENCES")
-    p.map(cgap.pipe_consensus_argslist, cmd_dict['cns_cmds'])
+    p_stable.map(cgap.pipe_consensus_argslist, cmd_dict['cns_cmds'])
 
     print("BUILDING PHYLIP FILES")
-    p.map(cgap.build_phylip_records_argslist, cmd_dict['phylip_cmds'])
+    p_max.map(cgap.build_phylip_records_argslist, cmd_dict['phylip_cmds'])
 
 
 if __name__ == '__main__':
