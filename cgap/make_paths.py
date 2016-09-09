@@ -23,7 +23,8 @@ def make_paths():
                    DEPTH_PATH,
                    CONSENSUS_FILES,
                    PHYLIP_FILES,
-                   CODEML_PHYLIP_FILES]
+                   CODEML_PHYLIP_FILES,
+                   NEXUS_FILES]
     for directory in directories:
         if not os.path.isdir(directory):
             os.makedirs(directory)
