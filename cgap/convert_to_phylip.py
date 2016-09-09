@@ -5,6 +5,7 @@ from Bio import SeqIO, Seq
 from .make_paths import get_cns_file_path
 from .make_paths import get_fastq_pair_name
 from .make_paths import get_phylip_file_path
+from .make_paths import get_codeml_phylip_file_path
 
 
 def get_cns_files_for_fasta(fasta, fw_fqs, rv_fqs):
@@ -39,13 +40,22 @@ def write_phylip_file(phylip_file, fasta_records_gen):
         SeqIO.write(fasta_records_gen, output_handle, 'phylip')
     return True
 
+def write_codeml_phylip_file(codeml_phylip_file, fasta_records_gen):
+    """ writes seq records into a phylip file """
+    with open(phylip_file, 'w+') as output_handle:
+        for record in fasta_records_gen:
+            output_handle.write("{}    {}".format(record.id, record.seq))
+    return True
+
 
 def build_phylip_records(fasta, fw_fqs, rv_fqs):
     """ runs the phylip conversion and merge pipe """
     phylip_file = get_phylip_file_path(fasta)
+    codeml_phylip_file = get_codeml_phylip_file_path(fasta)
     cns_file_gen = get_cns_files_for_fasta(fasta, fw_fqs, rv_fqs)
     fasta_records_gen = yield_fasta_records(cns_file_gen)
     write_phylip_file(phylip_file, fasta_records_gen)
+    write_codeml_phylip_file(codeml_phylip_file, fasta_records_gen)
     return True
 
 

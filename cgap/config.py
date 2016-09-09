@@ -16,6 +16,7 @@ VCF_PATH = abspath('vcf_files')
 DEPTH_PATH = abspath('depth_files')
 CONSENSUS_FILES = abspath('consensus_files')
 PHYLIP_FILES = abspath('phylip_files')
+CODEML_PHYLIP_FILES = abspath('codeml_phylip_files')
 
 # PROGRAM LOCATIONS
 MARK_DUPLICATES_JAR_PATH = "/bin/MarkDuplicates.jar"

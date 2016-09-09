@@ -9,6 +9,7 @@ from .config import CONSENSUS_FILES
 from .config import DEPTH_PATH
 from .config import FASTQ_PATH
 from .config import PHYLIP_FILES
+from .config import CODEML_PHYLIP_FILES
 from .config import VCF_PATH
 
 
@@ -20,7 +21,8 @@ def make_paths():
                    VCF_PATH,
                    DEPTH_PATH,
                    CONSENSUS_FILES,
-                   PHYLIP_FILES]
+                   PHYLIP_FILES,
+                   CODEML_PHYLIP_FILES]
     for directory in directories:
         if not os.path.isdir(directory):
             os.makedirs(directory)
@@ -92,6 +94,16 @@ def get_phylip_file_path(fasta_ref):
     path = os.path.join(directory, file_name)
     return path
 
+def get_codeml_phylip_file_path(fasta_ref):
+    """ builds a consensus file path """
+    directory = CODEML_PHYLIP_FILES
+    fasta_name = os.path.basename(fasta_ref).rsplit(".", 1)[0]
+    file_name = "{}.{}".format(
+        fasta_name,
+        "relaxed.phy"
+    )
+    path = os.path.join(directory, file_name)
+    return path
 
 def get_blast_db_path(fastq):
     """ builds a blast database path """
