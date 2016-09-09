@@ -11,6 +11,7 @@ from .config import FASTQ_PATH
 from .config import PHYLIP_FILES
 from .config import CODEML_PHYLIP_FILES
 from .config import VCF_PATH
+from .config import NEXUS_FILES
 
 
 def make_paths():
@@ -104,6 +105,19 @@ def get_codeml_phylip_file_path(fasta_ref):
     )
     path = os.path.join(directory, file_name)
     return path
+
+
+def get_nexus_file_path(fasta_ref):
+    """ builds a consensus file path """
+    directory = NEXUS_FILES
+    fasta_name = os.path.basename(fasta_ref).rsplit(".", 1)[0]
+    file_name = "{}.{}".format(
+        fasta_name,
+        "nex"
+    )
+    path = os.path.join(directory, file_name)
+    return path
+
 
 def get_blast_db_path(fastq):
     """ builds a blast database path """
