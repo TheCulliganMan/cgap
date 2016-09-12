@@ -52,7 +52,9 @@ def write_phylip_file(phylip_file, fasta_records_gen):
 def write_codeml_phylip_file(codeml_phylip_file, fasta_records_gen):
     """ writes seq records into a phylip file """
     with open(codeml_phylip_file, 'w+') as output_handle:
-        for record in fasta_records_gen:
+        for num, record in enumerate(fasta_records_gen):
+            if num == 0:
+                "{}    {}\n".format(len(fasta_records_gen), len(record.seq))
             output_handle.write("{}    {}\n".format(record.id, record.seq))
     return True
 
