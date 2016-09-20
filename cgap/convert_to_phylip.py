@@ -68,9 +68,9 @@ def build_phylip_records(fasta, fw_fqs, rv_fqs):
     codeml_phylip_file = get_codeml_phylip_file_path(fasta)
     cns_file_gen = list(get_cns_files_for_fasta(fasta, fw_fqs, rv_fqs))
     fasta_records_gen = list(yield_fasta_records(cns_file_gen))
-    write_phylip_file(phylip_file, fasta_records_gen)
-    write_codeml_phylip_file(codeml_phylip_file, fasta_records_gen)
     try:
+        write_phylip_file(phylip_file, fasta_records_gen)
+        write_codeml_phylip_file(codeml_phylip_file, fasta_records_gen)
         write_nexus_file(nexus_file, fasta_records_gen)
     except ValueError:
         pass
