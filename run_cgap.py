@@ -99,8 +99,8 @@ def main():
 
     p_stable = Pool(5) if cores >= 5 else Pool(cores)
 
-    print("FORMATTING BLAST DATABASES...")
     if format_db:
+        print("FORMATTING BLAST DATABASES...")
         p_stable.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
 
     print("RUNNING BLAST...")
