@@ -89,6 +89,6 @@ MIN_BLAST_SCORE = float(50.0)
     -refs_path <directory where fastas are located> \
     -forward <fastq_1_fw> <fastq_1_fw> <fastq_1_fw> \
     -reverse <fastq_2_rv> <fastq_2_rv> <fastq_2_rv> \
-    -c 5; #number of cores
+    -c 5 \
     -formatdb #[optional, only if they need formatting.]
   ```
