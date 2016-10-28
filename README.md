@@ -93,36 +93,36 @@ MIN_BLAST_SCORE = float(50.0)
     -formatdb #[optional, only if they need formatting.]
   ```
   
-or in the form of a slurm script.
+  or in the form of a slurm script.
 
-```bash
-#!/bin/sh
+  ```bash
+  #!/bin/sh
 
-#SBATCH --time=10:00:00          # Run time in hh:mm:ss
-#SBATCH --mem=30G        # Minimum memory required per CPU (in megabytes)
-#SBATCH --job-name=SRA-FASTQ
-#SBATCH --ntasks=8
-#SBATCH --error=/work/hdzoo/shared/cgap_bin/cgap/job.%J.err
-#SBATCH --output=/work/hdzoo/shared/cgap_bin/cgap/job.%J.out
+  #SBATCH --time=10:00:00          # Run time in hh:mm:ss
+  #SBATCH --mem=30G        # Minimum memory required per CPU (in megabytes)
+  #SBATCH --job-name=SRA-FASTQ
+  #SBATCH --ntasks=8
+  #SBATCH --error=/work/hdzoo/shared/cgap_bin/cgap/job.%J.err
+  #SBATCH --output=/work/hdzoo/shared/cgap_bin/cgap/job.%J.out
 
-module load compiler/gcc/4.8
-module load bcftools/1.2
-module load blast/2.2
-module load bwa/0.7
-module load HTSlib/1.2 # slightly lower version
-module load python/3.5
-module load tabix/0.2
-module load novocraft
-module load samtools/1.2
-module load blast-legacy
-module load java/1.8
+  module load compiler/gcc/4.8
+  module load bcftools/1.2
+  module load blast/2.2
+  module load bwa/0.7
+  module load HTSlib/1.2 # slightly lower version
+  module load python/3.5
+  module load tabix/0.2
+  module load novocraft
+  module load samtools/1.2
+  module load blast-legacy
+  module load java/1.8
 
-export PATH=/home/hdzoo/shared/software/bin:$PATH
+  export PATH=/home/hdzoo/shared/software/bin:$PATH
 
-python run_cgap.py \
-  -refs_path galapagos_ref \
-  -forward ab1tr1.fastq  \
-  -reverse ab1tr2.fastq \
-  -c 8 
+  python run_cgap.py \
+    -refs_path galapagos_ref \
+    -forward ab1tr1.fastq  \
+    -reverse ab1tr2.fastq \
+    -c 8 
 
-```
+  ```
