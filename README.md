@@ -106,14 +106,10 @@ MIN_BLAST_SCORE = float(50.0)
   #SBATCH --output=/work/hdzoo/shared/cgap_bin/cgap/job.%J.out
 
   module load compiler/gcc/4.8
-  module load bcftools/1.2
   module load blast/2.2
   module load bwa/0.7
-  module load HTSlib/1.2 # slightly lower version
   module load python/3.5
-  module load tabix/0.2
   module load novocraft
-  module load samtools/1.2
   module load blast-legacy
   module load java/1.8
 
