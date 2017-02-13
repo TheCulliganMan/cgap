@@ -37,11 +37,15 @@ def bwa_index_fasta(fasta_path):
     return cmd
 
 
-def bwa_mem_cmd(fasta_path, fw_fq, rv_fq):
+def bwa_mem_cmd(fasta_path, fw_fq, rv_fq, orig_fastq=False):
     """ bwa mem command builder """
 
-    short_fw_fq = get_fastq_file_path(fasta_path, fw_fq)
-    short_rv_fq = get_fastq_file_path(fasta_path, rv_fq)
+    if orig_fastq:
+        short_fw_fq = fw_fq
+        short_rv_fq = rv_fq
+    else:
+        short_fw_fq = get_fastq_file_path(fasta_path, fw_fq)
+        short_rv_fq = get_fastq_file_path(fasta_path, rv_fq)
 
     cmd = [BWA_PATH, 'mem', fasta_path, short_fw_fq, short_rv_fq]
 
@@ -166,10 +170,10 @@ def build_fasta_indices(fasta_path):
     return True
 
 
-def build_working_bam(ref_file, fw_fq, rv_fq, bamfile_working):
+def build_working_bam(ref_file, fw_fq, rv_fq, bamfile_working, orig_fastq=False):
     """ builds first step bamfile """
 
-    bwa_cmd = bwa_mem_cmd(ref_file, fw_fq, rv_fq)
+    bwa_cmd = bwa_mem_cmd(ref_file, fw_fq, rv_fq, orig_fastq)
     sam_cmd = samtools_view_cmd()
     nov_cmd = novosort_cmd(bamfile_working)
 
@@ -273,7 +277,7 @@ def build_consensus(vcf_file_out, ref_file, depth_file, cns_file):
     return status
 
 
-def pipe_consensus(fasta, fw_fq, rv_fq):
+def pipe_consensus(fasta, fw_fq, rv_fq, orig_fastq=False):
     """ runs all of the consensus commands in the right order """
     pair_name = get_fastq_pair_name(fw_fq, rv_fq)
 
@@ -284,7 +288,7 @@ def pipe_consensus(fasta, fw_fq, rv_fq):
     cns_file = get_cns_file_path(fasta, pair_name)
 
     build_fasta_indices(fasta)
-    build_working_bam(fasta, fw_fq, rv_fq, bamfile_working)
+    build_working_bam(fasta, fw_fq, rv_fq, bamfile_working, orig_fastq)
     build_final_bam(bamfile_working, bamfile_final)
     vcf_file_out = build_vcf(fasta, bamfile_final, vcf_file_out)
     build_depth_file(vcf_file_out, depth_file)
@@ -300,5 +304,9 @@ def pipe_consensus_argslist(args):
     if len(args) == 3:
         fasta, fw_rd, rv_rd = args
         pipe_consensus(fasta, fw_rd, rv_rd)
+        return True
+    elif len(args) == 4:
+        fasta, fw_rd, rv_rd, orig_fastq = args
+        pipe_consensus(fasta, fw_rd, rv_rd, orig_fastq=orig_fastq)
         return True
     return False

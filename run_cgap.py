@@ -51,6 +51,12 @@ def cgap_parser():
     )  # number of cores
 
     parser.add_argument(
+        '-skip_blast',
+        action="store_true",
+        help="If present, skip blast and use orig fastqs."
+    )
+
+    parser.add_argument(
         '-format_db',
         action="store_true",
         help="If present, format the blast databases."
@@ -59,14 +65,17 @@ def cgap_parser():
     args = parser.parse_args()
 
     return args.refs_path, args.forward_reads, \
-    args.reverse_reads, args.cores, args.format_db
+    args.reverse_reads, args.cores, args.format_db, args.skip_blast
 
 
 def main():
     """ runs all the steps in the cgap pipeline. """
     # Setup for cgap run
     cgap.make_paths()
-    refs_path, forward_reads, reverse_reads, cores, format_db = cgap_parser()
+
+    refs_path, forward_reads, reverse_reads, \
+    cores, format_db, skip_blast = cgap_parser()
+
     fastqs = forward_reads + reverse_reads
     fastas = list(cgap.get_fasta_paths(refs_path))
 
@@ -79,35 +88,37 @@ def main():
         'cns_cmds': []
     }
 
-    for fastq in fastqs:
+    if not skip_blast:
+        for fastq in fastqs:
 
-        cmd_dict['format_cmds'].append(fastq)
-        cmd_dict['hit_cmds'].append((fastas, fastq))
+            cmd_dict['format_cmds'].append(fastq)
+            cmd_dict['hit_cmds'].append((fastas, fastq))
 
-        for fasta in fastas:
-            cmd_dict['blast_cmds'].append((fasta, fastq))
+            for fasta in fastas:
+                cmd_dict['blast_cmds'].append((fasta, fastq))
 
     for fasta in fastas:
 
         cmd_dict['phylip_cmds'].append((fasta, forward_reads, reverse_reads))
 
         for fw_rd, rv_rd in cgap.pair_fastqs(forward_reads, reverse_reads):
-            cmd_dict['cns_cmds'].append((fasta, fw_rd, rv_rd))
+            cmd_dict['cns_cmds'].append((fasta, fw_rd, rv_rd, skip_blast))
 
     print("RUNNING CGAP ON {} CORES".format(cores))
     p_max = Pool(cores)
 
     p_stable = Pool(5) if cores >= 5 else Pool(cores)
 
-    if format_db:
-        print("FORMATTING BLAST DATABASES...")
-        p_stable.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
+    if not skip_blast:
+        if format_db:
+            print("FORMATTING BLAST DATABASES...")
+            p_stable.map(cgap.run_format_cmd, cmd_dict['format_cmds'])
 
-    print("RUNNING BLAST...")
-    p_max.map(cgap.run_blast_argslist, cmd_dict['blast_cmds'])
+        print("RUNNING BLAST...")
+        p_max.map(cgap.run_blast_argslist, cmd_dict['blast_cmds'])
 
-    print("COLLECTING AND BINNING BLAST HITS")
-    p_max.map(cgap.collect_hits_argslist, cmd_dict['hit_cmds'])
+        print("COLLECTING AND BINNING BLAST HITS")
+        p_max.map(cgap.collect_hits_argslist, cmd_dict['hit_cmds'])
 
     print("BUILDING CONSENSUS SEQUENCES")
     p_stable.map(cgap.pipe_consensus_argslist, cmd_dict['cns_cmds'])
